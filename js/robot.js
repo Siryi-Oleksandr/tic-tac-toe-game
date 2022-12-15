@@ -79,7 +79,7 @@ function stepRobot() {
 			historyPlayerO.push(nextStepId);
 			removeNotAvailableStep(nextStepId);
 			if (checkWon(historyPlayerO)) {
-				return Notiflix.Report.success("Congratulations! 🎉", "Winner player 'O'🥇", "Okay");
+				return Notiflix.Report.failure("You lost! 🤔", "Try again", "Okay");
 			}
 		}
 	}

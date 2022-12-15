@@ -1,11 +1,14 @@
 "use strict";
 
+// Виборка елементів для взаємодії
 const item = document.querySelector(".js-item");
 const box = document.querySelector(".js-list");
 const playerSymbol = document.querySelector(".js-player");
 const button = document.querySelector(".js-btn");
 const allTaxtContent = document.querySelectorAll(".js-item");
+const allItems = document.querySelectorAll(".js-item");
 
+// Прослуховування подій
 box.addEventListener("click", onItemClick);
 button.addEventListener("click", onStartagainClick);
 
@@ -22,6 +25,7 @@ const winCombinations = [
 
 let historyPlayerX = [];
 let historyPlayerO = [];
+let availableStep = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let player = "X";
 
 function onItemClick(evt) {
@@ -31,25 +35,16 @@ function onItemClick(evt) {
 	if (field.textContent) return;
 
 	field.textContent = player;
-
-	if (player === "X") {
-		historyPlayerX.push(+id);
-
-		if (checkWon(historyPlayerX)) {
-			return setTimeout(() => alert("Congratulations! Winner player 'X' 🎉🥇"), 100);
-		}
-	} else {
-		historyPlayerO.push(+id);
-
-		if (checkWon(historyPlayerO)) {
-			return setTimeout(() => alert("Congratulations! Winner player 'O' 🎉🥇"), 100);
-		}
+	historyPlayerX.push(+id);
+	removeNotAvailableStep(+id);
+	if (checkWon(historyPlayerX)) {
+		return setTimeout(() => alert("Congratulations! Winner player 'X' 🎉🥇"), 100);
 	}
-	player = player === "X" ? "O" : "X"; //перевірка яке значення записувати в поле field
-	playerSymbol.textContent = player;
 
-	if ([...historyPlayerO, ...historyPlayerX].length === 9) {
-		nobodyWon();
+	stepRobot(); // крок робить робот
+
+	if (availableStep.length === 0) {
+		setTimeout(nobodyWon(), 1000);
 	}
 }
 
@@ -60,9 +55,33 @@ function checkWon(array) {
 function onStartagainClick() {
 	historyPlayerX = [];
 	historyPlayerO = [];
+	availableStep = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	player = "X";
 	for (const item of allTaxtContent) {
 		item.innerHTML = "";
+	}
+}
+
+function getRandomItem(list) {
+	return list[Math.floor(Math.random() * list.length)];
+}
+
+function removeNotAvailableStep(id) {
+	const selectedItemIndex = availableStep.indexOf(id);
+	availableStep.splice(selectedItemIndex, 1);
+}
+
+function stepRobot() {
+	const nextStepId = getRandomItem(availableStep);
+	for (const item of allItems) {
+		if (+item.dataset.id === nextStepId) {
+			setTimeout(() => (item.textContent = "O"), 700);
+			historyPlayerO.push(nextStepId);
+			removeNotAvailableStep(nextStepId);
+			if (checkWon(historyPlayerO)) {
+				return setTimeout(() => alert("Congratulations! Winner player 'O'"), 800);
+			}
+		}
 	}
 }
 

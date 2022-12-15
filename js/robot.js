@@ -38,7 +38,7 @@ function onItemClick(evt) {
 	historyPlayerX.push(+id);
 	removeNotAvailableStep(+id);
 	if (checkWon(historyPlayerX)) {
-		return setTimeout(() => alert("Congratulations! Winner player 'X' 🎉🥇"), 100);
+		return Notiflix.Report.success("Congratulations! 🎉", "Winner player 'X'🥇", "Okay");
 	}
 
 	stepRobot(); // крок робить робот
@@ -79,7 +79,7 @@ function stepRobot() {
 			historyPlayerO.push(nextStepId);
 			removeNotAvailableStep(nextStepId);
 			if (checkWon(historyPlayerO)) {
-				return setTimeout(() => alert("Congratulations! Winner player 'O'"), 800);
+				return Notiflix.Report.success("Congratulations! 🎉", "Winner player 'O'🥇", "Okay");
 			}
 		}
 	}
@@ -87,6 +87,6 @@ function stepRobot() {
 
 function nobodyWon() {
 	if (!checkWon(historyPlayerO) && !checkWon(historyPlayerX)) {
-		return setTimeout(() => alert("Nobody won 🎭"), 100);
+		return Notiflix.Report.info("Nobody won 🎭", "Try again", "Okay");
 	}
 }

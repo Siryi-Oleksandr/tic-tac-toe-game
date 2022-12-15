@@ -36,13 +36,13 @@ function onItemClick(evt) {
 		historyPlayerX.push(+id);
 
 		if (checkWon(historyPlayerX)) {
-			return setTimeout(() => alert("Congratulations! Winner player 'X' 🎉🥇"), 100);
+			Notiflix.Report.success("Congratulations! 🎉", "Winner player 'X'🥇", "Okay");
 		}
 	} else {
 		historyPlayerO.push(+id);
 
 		if (checkWon(historyPlayerO)) {
-			return setTimeout(() => alert("Congratulations! Winner player 'O' 🎉🥇"), 100);
+			Notiflix.Report.success("Congratulations! 🎉", "Winner player 'O'🥇", "Okay");
 		}
 	}
 	player = player === "X" ? "O" : "X"; //перевірка яке значення записувати в поле field
@@ -68,6 +68,6 @@ function onStartagainClick() {
 
 function nobodyWon() {
 	if (!checkWon(historyPlayerO) && !checkWon(historyPlayerX)) {
-		return setTimeout(() => alert("Nobody won 🎭"), 100);
+		Notiflix.Report.info("Nobody won 🎭", "Try again", "Okay");
 	}
 }
